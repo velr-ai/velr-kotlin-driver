@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     kotlin("android")
+    id("org.jetbrains.dokka")
     `maven-publish`
     signing
 }
@@ -59,9 +60,18 @@ val signingTaskRequested = gradle.startParameter.taskNames.any {
 }
 
 val androidJavadocJar by tasks.registering(Jar::class) {
-    description = "A documentation JAR for the Android artifact."
+    description = "A documentation JAR containing Dokka HTML for the Android API."
+    from(tasks.dokkaGeneratePublicationHtml.flatMap { it.outputDirectory })
     archiveClassifier.set("javadoc")
-    from(rootProject.layout.projectDirectory.file("README.md"))
+}
+
+dokka {
+    dokkaSourceSets.configureEach {
+        perPackageOption {
+            matchingRegex.set("ai\\.velr\\.internal(\\..*)?")
+            suppress.set(true)
+        }
+    }
 }
 
 android {
@@ -89,6 +99,10 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
     compilerOptions {
         jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
     }
+}
+
+tasks.named("assemble") {
+    dependsOn(androidJavadocJar)
 }
 
 afterEvaluate {

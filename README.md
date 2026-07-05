@@ -13,6 +13,11 @@ The Kotlin artifact includes the Java core classes plus Kotlin extension helpers
 For the main Velr public entry point, see [velr-ai/velr](https://github.com/velr-ai/velr).
 For the Velr website, see [velr.ai](https://velr.ai/).
 
+API documentation:
+
+- [JVM API documentation](https://velr-ai.github.io/velr-kotlin-driver/docs/jvm/)
+- [Android API documentation](https://velr-ai.github.io/velr-kotlin-driver/docs/android/)
+
 ## Community
 
 - **Community and questions:** [GitHub Discussions](https://github.com/velr-ai/velr/discussions)
